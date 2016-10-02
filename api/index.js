@@ -30,16 +30,13 @@ module.exports = {
                     "200": {
                         "description": "Список пользователей",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/User"
-                            }
+                            "$ref": "#/definitions/UserList"
                         }
                     },
-                    "default": {
+                    "500": {
                         "description": "Неизвестная ошибка",
                         "schema": {
-                            "$ref": "#/definitions/Error"
+                            "$ref": "#/definitions/ErrorList"
                         }
                     }
                 }
@@ -59,16 +56,13 @@ module.exports = {
                     "200": {
                         "description": "Список пользователей",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/User"
-                            }
+                            "$ref": "#/definitions/UserList"
                         }
                     },
-                    "default": {
+                    "500": {
                         "description": "Неизвестная ошибка",
                         "schema": {
-                            "$ref": "#/definitions/Error"
+                            "$ref": "#/definitions/ErrorList"
                         }
                     }
                 }
@@ -104,56 +98,13 @@ module.exports = {
                     "404": {
                         "description": "Пользователь с таким ID не найден",
                         "schema": {
-                            "$ref": "#/definitions/Error"
+                            "$ref": "#/definitions/ErrorList"
                         }
                     },
-                    "default": {
+                    "500": {
                         "description": "Неизвестная ошибка",
                         "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/users/login": {
-            "post": {
-                "summary": "Авторизация",
-                "description": "Авторизация пользователя.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Пользователи"
-                ],
-                "parameters": [
-                    {
-                        "name": "loginData",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/UserLoginRequest"
-                        },
-                        "description": "Логин и пароль"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Информация об авторизованном пользователе",
-                        "schema": {
-                            "$ref": "#/definitions/User"
-                        }
-                    },
-                    "400": {
-                        "description": "Введены неверные данные",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Неизвестная ошибка",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
+                            "$ref": "#/definitions/ErrorList"
                         }
                     }
                 }
@@ -184,19 +135,138 @@ module.exports = {
                     "200": {
                         "description": "Информация о зарегистрированном пользователе",
                         "schema": {
-                            "$ref": "#/definitions/User"
+                            "$ref": "#/definitions/UserProfile"
                         }
                     },
                     "400": {
                         "description": "Введены неверные данные",
                         "schema": {
-                            "$ref": "#/definitions/Error"
+                            "$ref": "#/definitions/ErrorList"
                         }
                     },
-                    "default": {
+                    "403": {
+                        "description": "Для регистрации необхожимо заверщить сессию (логаут)",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorList"
+                        }
+                    },
+                    "500": {
                         "description": "Неизвестная ошибка",
                         "schema": {
-                            "$ref": "#/definitions/Error"
+                            "$ref": "#/definitions/ErrorList"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "summary": "Авторизация",
+                "description": "Авторизация пользователя.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Пользователи",
+                    "Сессии"
+                ],
+                "parameters": [
+                    {
+                        "name": "loginData",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UserLoginRequest"
+                        },
+                        "description": "Логин и пароль"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Информация об авторизованном пользователе",
+                        "schema": {
+                            "$ref": "#/definitions/UserProfile"
+                        }
+                    },
+                    "400": {
+                        "description": "Введены неверные данные",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorList"
+                        }
+                    },
+                    "403": {
+                        "description": "Для входа необхожимо заверщить сессию (логаут)",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorList"
+                        }
+                    },
+                    "500": {
+                        "description": "Неизвестная ошибка",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorList"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/authenticate": {
+            "get": {
+                "summary": "Аутентификация",
+                "description": "Аутентификация пользователя (если кратко - проверка, авторизован ли пользователь).",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Пользователи",
+                    "Сессии"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Информация об авторизованном пользователе",
+                        "schema": {
+                            "$ref": "#/definitions/UserProfile"
+                        }
+                    },
+                    "401": {
+                        "description": "Пользователь не авторизован",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorList"
+                        }
+                    },
+                    "500": {
+                        "description": "Неизвестная ошибка",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorList"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "post": {
+                "summary": "Логаут",
+                "description": "Завершение сессии пользователя.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Пользователи",
+                    "Сессии"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Информация об авторизованном пользователе"
+                    },
+                    "401": {
+                        "description": "Пользователь не авторизован",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorList"
+                        }
+                    },
+                    "500": {
+                        "description": "Неизвестная ошибка",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorList"
                         }
                     }
                 }
@@ -208,7 +278,7 @@ module.exports = {
             "type": "object",
             "description": "Полученные данные о пользователе",
             "properties": {
-                "userId": {
+                "id": {
                     "type": "number",
                     "format": "long",
                     "description": "ID пользователя"
@@ -216,6 +286,41 @@ module.exports = {
                 "login": {
                     "type": "string",
                     "description": "Логин (имя) пользователя"
+                },
+                "rating": {
+                    "type": "number",
+                    "description": "Рейтинг пользователя"
+                }
+            }
+        },
+        "UserList": {
+            "type": "object",
+            "description": "Список пользователей",
+            "properties": {
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/User"
+                    }
+                }
+            }
+        },
+        "UserProfile": {
+            "type": "object",
+            "description": "Полный профиль пользователя",
+            "properties": {
+                "id": {
+                    "type": "number",
+                    "format": "long",
+                    "description": "ID пользователя"
+                },
+                "login": {
+                    "type": "string",
+                    "description": "Логин (имя) пользователя"
+                },
+                "email": {
+                    "type": "string",
+                    "description": "E-mail пользователя"
                 },
                 "rating": {
                     "type": "number",
@@ -255,14 +360,29 @@ module.exports = {
                 }
             }
         },
+        "ErrorCode": {
+            "type": "number",
+            "format": "integer",
+            "description": "10: Такого логина не существует<br> 11: Неправильный пароль<br> 21: Логин занят<br> 22: E-mail уже есть в базе<br>  23: Пустой логин<br> 24: Пустой E-mail<br> 25: Пустой пароль<br> 100: Нет пользователя с таким ID<br> 101: Пользователь уже авторизован<br> 102: Пользователь не авторизован<br> 900: Неизвестная ошибка<br>"
+        },
         "Error": {
             "type": "object",
             "description": "Данные об ошибке",
             "properties": {
                 "code": {
-                    "type": "number",
-                    "format": "integer",
-                    "description": "Код ошибки"
+                    "$ref": "#/definitions/ErrorCode"
+                }
+            }
+        },
+        "ErrorList": {
+            "type": "object",
+            "description": "Спиок ошибок",
+            "properties": {
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Error"
+                    }
                 }
             }
         }
