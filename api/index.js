@@ -110,7 +110,7 @@ module.exports = {
                 }
             }
         },
-        "/users/{login}": {
+        "/users/login/{login}": {
             "get": {
                 "summary": "Пользователь по ID",
                 "description": "Возвращает информацию о пользователе по его ID.",
