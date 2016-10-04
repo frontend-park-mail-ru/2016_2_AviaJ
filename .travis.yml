@@ -5,7 +5,7 @@ deploy:
   provider: heroku
   api_key:
     secure: lAzsfkZYyIQGZJ2NgDntpHMkRw4QtAP4/txw/rS/FoJTuTZaoy3fcqlj4MG3mmCRlFM+D2mu2N5rTVcNdILL8aBwOPHZITvs79E3z6QIr9v86uZXHwpunB3NYBiBgCTmxAB6EtpwqPnqPrNjtKwXI4wpH+NL/0FyesYpP7eLuuY0gpYDCMV3L+phV65oigq1HA243P9WmajQMj45TjJTanS92go/kA6PEHfTfRlHOcnDdTiXNNH/STpKvKsFzUHG7amSfYHqhToGUgYRwMU2I9V5hhX8QNAZsiEmDt+9fLPbjtKKVZHfNSB5I1NL8/446d12wYKlyc0JIt75KSC1m6vW8rdMRkKF3Pgu678yHIm0MCdZHKlGBpwt2XNhQq0/OOXl7a7dN6liFuAPx9Bj1VAxrYAaDTnr5nTfUy5iBVPlPiKO1/5YcDaOlzxqOtDZ1jsy0M6gNqO+3ty1iPJaAyugsQNcOAK5tGKx8o0BuQCtZFc4hG5bQYcgT+D/kX7bdvGyqXVdpvrwu4lbO8nGim8gtX1bSy7cNnYKcsF0vP304Gew0g7l8hX4yf4GL8yoKR5LnfyMsoBEQ0QpLGDgB677ZqMLYbcmpXNMSjyimCaUFbc8BQco1WaTzWWfymyjCjWzVQdyBMyfU6ZMhMeZ9vrI6BuseYrDRSeP7ec0oFw=
-  app: 2016_2_AviaJ
+  app: aviaj-frontend-travis
   on:
     repo: frontend-park-mail-ru/2016_2_AviaJ
     branch: rk1
